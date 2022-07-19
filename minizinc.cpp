@@ -72,7 +72,7 @@ int run(const std::string& exe, const std::vector<std::string>& args, bool jsonS
       if (slv.getFlagVerbose()) {
         std::cerr << std::endl;
       }
-      std::cerr << "  UNKNOWN EXCEPTION." << std::endl;
+      std::cerr << "  UNKNOWN EXCEPTION in solver." << std::endl;
     }
 
     if (slv.getFlagVerbose()) {

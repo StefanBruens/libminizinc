@@ -403,7 +403,7 @@ void Solns2Out::checkSolution(std::ostream& oss) {
   } catch (const exception& e) {
     oss << e.what() << std::endl;
   } catch (...) {
-    oss << "  UNKNOWN EXCEPTION." << std::endl;
+    oss << "  UNKNOWN EXCEPTION in checker." << std::endl;
   }
 
 #else
