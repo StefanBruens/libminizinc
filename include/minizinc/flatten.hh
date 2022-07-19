@@ -84,11 +84,11 @@ struct FlatteningOptions {
     try {
       std::random_device rdev("/dev/urandom");
       seeds.push_back(rdev());
-    } catch (std::exception) {
+    } catch (const std::exception&) {
       try {
         std::random_device rdev;
         seeds.push_back(rdev());
-      } catch (std::exception) {
+      } catch (const std::exception&) {
       }
     }
     auto highrestime = static_cast<long unsigned int>(
