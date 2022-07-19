@@ -551,16 +551,24 @@ void Solns2Out::init() {
       _outputExpr = oi->e();
     } else if (auto* vdi = i->dynamicCast<VarDeclI>()) {
       if (vdi->e()->id()->idn() == -1 && vdi->e()->id()->v() == "_mzn_solution_checker") {
-        _checkerModel = eval_string(getEnv()->envi(), vdi->e()->e());
-        if (!_checkerModel.empty() && _checkerModel[0] == '@') {
-          _checkerModel = FileUtils::decode_base64(_checkerModel);
-          FileUtils::inflate_string(_checkerModel);
+        try {
+          _checkerModel = eval_string(getEnv()->envi(), vdi->e()->e());
+          if (!_checkerModel.empty() && _checkerModel[0] == '@') {
+            _checkerModel = FileUtils::decode_base64(_checkerModel);
+            FileUtils::inflate_string(_checkerModel);
+          }
+        } catch (int ei) {
+          throw Error("Failed to inflate solution checker, error: " + std::to_string(ei));
         }
       } else if (vdi->e()->id()->idn() == -1 && vdi->e()->id()->v() == "_mzn_stats_checker") {
-        _statisticsCheckerModel = eval_string(getEnv()->envi(), vdi->e()->e());
-        if (!_statisticsCheckerModel.empty() && _statisticsCheckerModel[0] == '@') {
-          _statisticsCheckerModel = FileUtils::decode_base64(_statisticsCheckerModel);
-          FileUtils::inflate_string(_statisticsCheckerModel);
+        try {
+          _statisticsCheckerModel = eval_string(getEnv()->envi(), vdi->e()->e());
+          if (!_statisticsCheckerModel.empty() && _statisticsCheckerModel[0] == '@') {
+            _statisticsCheckerModel = FileUtils::decode_base64(_statisticsCheckerModel);
+            FileUtils::inflate_string(_statisticsCheckerModel);
+          }
+        } catch (int ei) {
+          throw Error("Failed to inflate stats checker, error: " + std::to_string(ei));
         }
       } else {
         _declmap.insert(make_pair(vdi->e()->id()->str(), DE(vdi->e(), vdi->e()->e())));

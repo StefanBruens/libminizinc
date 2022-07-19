@@ -68,6 +68,11 @@ int run(const std::string& exe, const std::vector<std::string>& args, bool jsonS
         std::cerr << std::endl;
       }
       std::cerr << e.what() << std::endl;
+    } catch (int i) {
+      if (slv.getFlagVerbose()) {
+        std::cerr << std::endl;
+      }
+      std::cerr << "  UNKNOWN EXCEPTION in solver, errorcode: " << i << std::endl;
     } catch (...) {
       if (slv.getFlagVerbose()) {
         std::cerr << std::endl;

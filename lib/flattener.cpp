@@ -584,8 +584,13 @@ void Flattener::flatten(const std::string& modelString, const std::string& model
             }
           }
           smm->compact();
-          std::string smm_compressed =
-              FileUtils::encode_base64(FileUtils::deflate_string(smm_oss.str()));
+          std::string smm_compressed;
+          try {
+            smm_compressed =
+                FileUtils::encode_base64(FileUtils::deflate_string(smm_oss.str()));
+          } catch (int i) {
+            throw Error("Failed to compress, error code: " + std::to_string(i));
+          }
           auto* ti = new TypeInst(Location().introduce(), Type::parstring(), nullptr);
           auto* checkString =
               new VarDecl(Location().introduce(), ti, ASTString("_mzn_solution_checker"),

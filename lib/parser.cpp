@@ -261,7 +261,13 @@ void parse(Env& env, Model*& model, const vector<string>& filenames,
       if (verbose) {
         std::cerr << "processing file '" << fullname << "'" << endl;
       }
-      s = get_file_contents(file);
+      try {
+        s = get_file_contents(file);
+      } catch (int i) {
+        throw Error("Cannot read file '" + f + "', error: " + std::to_string(i));
+      } catch (...) {
+        throw Error("Cannot read file '" + f + "'");
+      }
 
       if (m->filepath().empty()) {
         m->setFilepath(fullname);
@@ -305,7 +311,13 @@ void parse(Env& env, Model*& model, const vector<string>& filenames,
         if (verbose) {
           std::cerr << "processing data file '" << f << "'" << endl;
         }
-        s = get_file_contents(file);
+        try {
+          s = get_file_contents(file);
+        } catch (int i) {
+          throw Error("Cannot read data file '" + f + "', error: " + std::to_string(i));
+        } catch (...) {
+          throw Error("Cannot read data file '" + f + "'");
+        }
       }
 
       ParserState pp(f, s, err, includePaths, files, seenModels, model, true, false, false,
